@@ -1,0 +1,37 @@
+<html>
+<body>
+<pre>
+    #*
+    这里是块注释
+    *#
+    $!{value1}
+    $!{value2} ## !的作用是  如果不存在，强制为空
+    ${value3}
+
+    $!{colors}
+
+    #foreach($color in $colors)
+        This is Color $!{foreach.index} : $color, $!{foreach.count}
+    #end
+
+    #foreach($key in $map.keySet())
+        number : $key , Value : $map.get($key)
+    #end
+
+    User : $!{user.name}
+
+    #set($title = "hi world")
+    #parse("header.html")
+
+    ##以下是宏,不调用不显示
+    #macro(render_color, $index, $color)
+        Color Render Macro $index, $color
+    #end
+
+    #foreach($color in $colors)
+        #render_color($foreach.index, $color)
+    #end
+
+</pre>
+</body>
+</html>

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.19.RELEASE</version>
+		<version>1.4.0.RELEASE</version>	<!--为了使用velocity，改成旧版本1.4.0-->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nowcoder</groupId>
@@ -39,11 +39,24 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--手动导入velocity包-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-velocity</artifactId>
 			<version>1.2.2.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>2.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
