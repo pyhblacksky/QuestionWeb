@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-@Controller
+//@Controller
 public class IndexController {
 
     @RequestMapping(path = {"/","/index"}, method = {RequestMethod.GET, RequestMethod.POST})    //访问的路径

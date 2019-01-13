@@ -1,0 +1,8 @@
+<!--工具类，velocity中应用.date对象实例化了一个<class>中的类-->
+<toolbox>
+    <tool>
+        <key>date</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.DateTool</class>
+    </tool>
+</toolbox>
