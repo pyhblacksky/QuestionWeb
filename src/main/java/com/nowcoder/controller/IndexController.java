@@ -43,7 +43,7 @@ public class IndexController {
             map.put(String.valueOf(i), String.valueOf(i*i));
         }
         model.addAttribute("map",map);
-        model.addAttribute("user",new User("XiaoMing"));
+
         return "home";//返回一个home的模板
     }
 
