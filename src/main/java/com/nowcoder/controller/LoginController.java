@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
@@ -21,13 +23,21 @@ public class LoginController {
     UserService userService;
 
     //注册功能
-    @RequestMapping(value = {"/reg/", "/reg"})
+    @RequestMapping(value = {"/reg/"})
     public String reg(Model model, @RequestParam("username") String username,
-                      @RequestParam("password") String password){
+                      @RequestParam("password") String password,
+                      @RequestParam(value = "remeberme", defaultValue = "false") boolean rememberme,
+                      HttpServletResponse response){
         try {
             Map<String, String> map = userService.register(username, password);
-            //不为空，则存在问题
-            if(map.containsKey("msg")){
+            //包含ticket，说明已注册，需要跳转并保存t
+            if(map.containsKey("ticket")){
+                Cookie cookie = new Cookie("ticket", map.get("ticket"));
+                cookie.setPath("/");
+                response.addCookie(cookie);
+                //成功后返回主页
+                return "redirect:/";
+            } else{
                 model.addAttribute("msg",map.get("msg"));
                 return "login";
             }
@@ -36,8 +46,6 @@ public class LoginController {
             return "login";
         }
 
-        //成功后返回主页
-        return "redirect:/";
     }
 
     //注册界面
@@ -46,11 +54,28 @@ public class LoginController {
         return "login";
     }
 
-    /*
+
     //登录功能
-    @RequestMapping(value = {""})
-    public String login(){
-        return
+    @RequestMapping(value = {"/login", "/login/"})
+    public String login(Model model, @RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        @RequestParam(value = "remeberme", defaultValue = "false") boolean rememberme,
+                        HttpServletResponse response){
+        try {
+            Map<String, String> map = userService.login(username, password);
+            if(map.containsKey("ticket")){
+                Cookie cookie = new Cookie("ticket", map.get("ticket"));
+                cookie.setPath("/");
+                response.addCookie(cookie);
+                return "redirect:/";
+            } else{
+                model.addAttribute("msg", map.get("msg"));
+                return "login";
+            }
+        }catch (Exception e){
+            logger.error("登录失败 ： " + e.toString());
+            return "login";
+        }
     }
-    */
+
 }

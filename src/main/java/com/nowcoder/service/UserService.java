@@ -1,22 +1,24 @@
 package com.nowcoder.service;
 
+import com.nowcoder.DAO.LoginTicketDAO;
 import com.nowcoder.DAO.UserDAO;
+import com.nowcoder.model.LoginTicket;
 import com.nowcoder.model.User;
 import com.nowcoder.util.WendaUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserService {
 
     @Autowired
     UserDAO userDAO;
+
+    @Autowired
+    private LoginTicketDAO loginTicketDAO;
 
     //注册服务
     public Map<String, String> register(String username, String password){
@@ -45,6 +47,8 @@ public class UserService {
         user.setPassword(WendaUtil.MD5(password+user.getSalt()));
         userDAO.addUser(user);
 
+        String ticket = addLoginTicket(user.getId());
+        map.put("ticket", ticket);
         return map;
     }
 
@@ -73,7 +77,22 @@ public class UserService {
             return map;
         }
 
+        String ticket = addLoginTicket(user.getId());
+        map.put("ticket", ticket);  //传出去，通过http下发
         return map;
+    }
+
+    //下发ticket
+    public String addLoginTicket(int userId){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(userId);
+        Date now = new Date();
+        now.setTime(3600*24*100 + now.getTime());
+        loginTicket.setExpired(now);
+        loginTicket.setStatus(0);
+        loginTicket.setTicket(UUID.randomUUID().toString().replaceAll("-",""));
+        loginTicketDAO.addTicket(loginTicket);
+        return loginTicket.getTicket();
     }
 
     public User getUser(int id){

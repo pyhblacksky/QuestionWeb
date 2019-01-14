@@ -1,11 +1,10 @@
 package com.nowcoder.DAO;
 
 import com.nowcoder.model.LoginTicket;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+//Ticket的作用是保存登录状态信息的一个句柄
 @Mapper
 @Component("LoginTicketDAO")
 public interface LoginTicketDAO {
@@ -19,5 +18,8 @@ public interface LoginTicketDAO {
 
     @Select(value = {"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where ticket = #{ticket}"})
     LoginTicket selectByTicket(String ticket);
+
+    @Update(value = {" update ", TABLE_NAME, " set status = #{status} where ticket = #{ticket}"})
+    void updateStatus(@Param("ticket") String ticket, @Param("status") int status);
 
 }
