@@ -23,7 +23,7 @@ public class LoginController {
     UserService userService;
 
     //注册功能
-    @RequestMapping(value = {"/reg/"})
+    @RequestMapping(value = {"/reg/","/reg"})
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
                       @RequestParam(value = "remeberme", defaultValue = "false") boolean rememberme,
