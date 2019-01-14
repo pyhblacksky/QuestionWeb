@@ -18,5 +18,5 @@ public interface CommentDAO {
     int addComment(Comment comment);
 
     @Select(value = {" select ", SELECT_FIELDS ," from " , TABLE_NAME, " where id = #{id}"})
-    Comment getCommentById(int id);
+    Comment selectCommentById(int id);
 }

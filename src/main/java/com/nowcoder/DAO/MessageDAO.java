@@ -18,5 +18,5 @@ public interface MessageDAO {
     int addMessage(Message message);
 
     @Select(value = {" select ", SELECT_FIELDS ," from " , TABLE_NAME, " where id = #{id}"})
-    Message getMessageById(int id);
+    Message selectMessageById(int id);
 }

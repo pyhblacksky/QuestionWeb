@@ -88,6 +88,12 @@ public class InitDatabaseTests {
 
 		//测试question
 		System.out.println(questionDAO.selectLatestQuestions(0,0,10));
+
+		//测试message
+		Assert.assertEquals(0,messageDAO.selectMessageById(1).getFromid());
+
+		//测试comment
+		Assert.assertEquals(0,commentDAO.selectCommentById(1).getEntityId());
 	}
 
 }
