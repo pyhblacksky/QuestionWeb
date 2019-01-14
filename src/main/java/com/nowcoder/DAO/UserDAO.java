@@ -19,7 +19,7 @@ public interface UserDAO {
     @Select(value = {"select ", SELECT_FIELDS, " from " , TABLE_NAME, " where id = #{id}"})
     User selectById(int id);
 
-    @Select(value = {"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where name = #name"})
+    @Select(value = {"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where name = #{name}"})
     User selectByName(String name);
 
     @Update(value = {"update ", TABLE_NAME," set password = #{password} where id = #{id}"})

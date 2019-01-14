@@ -66,10 +66,10 @@ public class InitDatabaseTests {
 			//测试messageDAO
 			Message message = new Message();
 			message.setContent(String.format("Message content %d", i));
-			message.setConversationId(i);
+			message.setConversationId(String.format("Conversation id is %d", i));
 			message.setCreatedDate(date);
-			message.setFromid(i);
-			message.setToid(i+1);
+			message.setFromId(i);
+			message.setToId(i+1);
 			messageDAO.addMessage(message);
 
 			//测试CommentDAO
@@ -78,7 +78,7 @@ public class InitDatabaseTests {
 			comment.setCreatedDate(date);
 			comment.setEntityId(i);
 			comment.setUserId(i);
-			comment.setEntityType(String.format("EntityType %d", i));
+			comment.setEntityType(i);
 			commentDAO.addComment(comment);
 		}
 
@@ -90,7 +90,7 @@ public class InitDatabaseTests {
 		System.out.println(questionDAO.selectLatestQuestions(0,0,10));
 
 		//测试message
-		Assert.assertEquals(0,messageDAO.selectMessageById(1).getFromid());
+		Assert.assertEquals(0,messageDAO.selectMessageById(1).getFromId());
 
 		//测试comment
 		Assert.assertEquals(0,commentDAO.selectCommentById(1).getEntityId());

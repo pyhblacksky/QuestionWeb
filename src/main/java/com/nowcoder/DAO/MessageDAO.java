@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Component(value = "MessageDAO")
 public interface MessageDAO {
     String TABLE_NAME = " message ";
-    String INSERT_FIELDS = " fromid, toid, content, conversation_id, created_date ";
+    String INSERT_FIELDS = " from_id, to_id, content, conversation_id, has_read, created_date ";
     String SELECT_FIELDS = " id , " + INSERT_FIELDS;
 
     @Insert(value = {"insert into ", TABLE_NAME, "( ", INSERT_FIELDS,
-            " ) values (#{fromid}, #{toid}, #{content}, #{conversationId}, #{createdDate})"})
+            " ) values (#{fromId}, #{toId}, #{content}, #{conversationId}, #{hasRead}, #{createdDate})"})
     int addMessage(Message message);
 
     @Select(value = {" select ", SELECT_FIELDS ," from " , TABLE_NAME, " where id = #{id}"})
