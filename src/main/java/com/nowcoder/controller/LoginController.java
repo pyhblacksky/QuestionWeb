@@ -1,6 +1,7 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class LoginController {
     @RequestMapping(value = {"/reg/","/reg"})
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
+                      @RequestParam(value = "next",required = false) String next,
                       @RequestParam(value = "remeberme", defaultValue = "false") boolean rememberme,
                       HttpServletResponse response){
         try {
@@ -36,6 +38,10 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket", map.get("ticket"));
                 cookie.setPath("/");
                 response.addCookie(cookie);
+                //next不为空，跳转到next，因为next是权限请求时的页面
+                if(StringUtils.isNotBlank(next)){
+                    return "redirect:" + next;
+                }
                 //成功后返回主页
                 return "redirect:/";
             } else{
@@ -49,9 +55,10 @@ public class LoginController {
 
     }
 
-    //注册界面
+    //登录注册界面
     @RequestMapping(value = {"/reglogin"}, method = {RequestMethod.GET})
-    public String reglogin(){
+    public String reglogin(Model model, @RequestParam(value = "next", required = false) String next){
+        model.addAttribute("next", next);
         return "login";
     }
 
@@ -60,6 +67,7 @@ public class LoginController {
     @RequestMapping(value = {"/login", "/login/"})
     public String login(Model model, @RequestParam("username") String username,
                         @RequestParam("password") String password,
+                        @RequestParam(value = "next",required = false) String next,
                         @RequestParam(value = "remeberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse response){
         try {
@@ -68,6 +76,10 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket", map.get("ticket"));
                 cookie.setPath("/");
                 response.addCookie(cookie);
+                //next不为空，跳转到next，因为next是权限请求时的页面
+                if(StringUtils.isNotBlank(next)){
+                    return "redirect:" + next;
+                }
                 return "redirect:/";
             } else{
                 model.addAttribute("msg", map.get("msg"));
