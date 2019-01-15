@@ -55,6 +55,10 @@ public class PassportInterceptor implements HandlerInterceptor {
                 return true;
             }
 
+            //出现BUG，ticket的userId在连续不断地增长，此时导致获取不到用户的id，或者获取出错误的用户信息。
+            //必须使loginTicket 的 id和用户id关联。此处loginTicket的id和userId搞混了！！
+            // 因为select语句中选择区域少了个逗号！！！！！！
+
             //如果ticket真实有效
             User user = userDAO.selectById(loginTicket.getUserId());
             //依赖注入的思想使其全部有效
