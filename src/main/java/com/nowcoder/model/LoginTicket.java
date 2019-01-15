@@ -7,7 +7,7 @@ public class LoginTicket {
     private int id ;
     private int userId;
     private Date expired;
-    private int status;
+    private int status;//0为有效，1为无效
     private String ticket;
 
     public int getId() {

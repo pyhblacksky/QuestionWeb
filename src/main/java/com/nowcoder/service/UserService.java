@@ -99,4 +99,8 @@ public class UserService {
         return userDAO.selectById(id);
     }
 
+    //登出功能，将status设置为1，则无效
+    public void logout(String ticket){
+        loginTicketDAO.updateStatus(ticket, 1);
+    }
 }
