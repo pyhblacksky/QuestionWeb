@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Controller
 public class LoginController {
@@ -40,6 +41,10 @@ public class LoginController {
                 response.addCookie(cookie);
                 //next不为空，跳转到next，因为next是权限请求时的页面
                 if(StringUtils.isNotBlank(next)){
+                    //判断next的合法性，如输入http://www.baidu.com则跳转回百度,危险
+                    if(!Pattern.matches("/user/*", next)){
+                        return "redirect:/";
+                    }
                     return "redirect:" + next;
                 }
                 //成功后返回主页
@@ -78,6 +83,10 @@ public class LoginController {
                 response.addCookie(cookie);
                 //next不为空，跳转到next，因为next是权限请求时的页面
                 if(StringUtils.isNotBlank(next)){
+                    //判断next的合法性，如输入http://www.baidu.com则跳转回百度,危险
+                    if(!Pattern.matches("/user/*", next)){
+                        return "redirect:/";
+                    }
                     return "redirect:" + next;
                 }
                 return "redirect:/";

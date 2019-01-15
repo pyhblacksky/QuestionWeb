@@ -1,6 +1,7 @@
 package com.nowcoder.interceptor;
 
 import com.nowcoder.model.HostHolder;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 
 /**
  * @Author: pyh
@@ -26,6 +28,7 @@ public class LoginRequreInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         //如果没有登录，跳转到登录页面
         if(hostHolder.getUser() == null){
+
             //并传入当前页面作为参数，登录成功后可以跳转
             httpServletResponse.sendRedirect("/reglogin?next="+httpServletRequest.getRequestURI());
         }
