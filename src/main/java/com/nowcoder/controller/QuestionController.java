@@ -46,6 +46,8 @@ public class QuestionController {
             if(hostHolder.getUser() == null){
                 //未登录，返回匿名用户
                 question.setUserId(WendaUtil.ANONYMOUS_USERID);
+                //未登录，返回999,=>使登录
+                return WendaUtil.getJSONString(999);
             } else{
                 //当前用户id
                 question.setUserId(hostHolder.getUser().getId());

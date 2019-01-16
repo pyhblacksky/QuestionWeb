@@ -43,7 +43,7 @@ public class LoginController {
                 //next不为空，跳转到next，因为next是权限请求时的页面
                 if(StringUtils.isNotBlank(next)){
                     //判断next的合法性，如输入http://www.baidu.com则跳转回百度,危险
-                    if(!Pattern.matches("/user/[1-9]*", next)){
+                    if(!Pattern.matches("/user/[0-9]*", next)){
                         return "redirect:/";
                     }
                     return "redirect:" + next;
