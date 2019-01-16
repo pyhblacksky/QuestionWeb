@@ -21,8 +21,8 @@ public class UserService {
     private LoginTicketDAO loginTicketDAO;
 
     //注册服务
-    public Map<String, String> register(String username, String password){
-        Map<String, String> map = new HashMap<>();
+    public Map<String, Object> register(String username, String password){
+        Map<String, Object> map = new HashMap<>();
         //判断合法性
         if(StringUtils.isBlank(username)){
             map.put("msg","用户名不能为空");
@@ -53,8 +53,8 @@ public class UserService {
     }
 
     //登录服务
-    public Map<String, String> login(String username, String password){
-        Map<String, String> map = new HashMap<>();
+    public Map<String, Object> login(String username, String password){
+        Map<String, Object> map = new HashMap<>();
         //判断合法性
         if(StringUtils.isBlank(username)){
             map.put("msg","用户名不能为空");
