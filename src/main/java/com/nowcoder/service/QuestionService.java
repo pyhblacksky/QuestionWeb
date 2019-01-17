@@ -33,4 +33,8 @@ public class QuestionService {
         return questionDAO.selectLatestQuestions(userId, offset, limit);
     }
 
+    //选取问题
+    public Question selectById(int id){
+        return questionDAO.selectById(id);
+    }
 }

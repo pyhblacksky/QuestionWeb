@@ -18,6 +18,8 @@ public interface QuestionDAO {
             ") values (#{title},#{content},#{createdDate},#{userId}, #{commentCount})"})
     int addQuestion(Question question);
 
+    @Select(value = {"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id = #{id}"})
+    Question selectById(int id);
 
     //使用xml实现,需要在resources中建立同名文件，后缀为.xml
     List<Question> selectLatestQuestions(@Param("userId") int userId,
