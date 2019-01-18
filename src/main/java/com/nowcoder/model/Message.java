@@ -45,7 +45,12 @@ public class Message {
     }
 
     public String getConversationId() {
-        return conversationId;
+        //a发给b，和b发给a是一样的
+        if(fromId < toId){
+            return String.format("%d_%d", fromId, toId);
+        } else{
+            return String.format("%d_%d", toId, fromId);
+        }
     }
 
     public void setConversationId(String conversationId) {
