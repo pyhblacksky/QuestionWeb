@@ -21,6 +21,9 @@ public interface QuestionDAO {
     @Select(value = {"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id = #{id}"})
     Question selectById(int id);
 
+    @Update({"update ", TABLE_NAME, " set comment_count = #{commentCount} where id=#{id}"})
+    int updateCommentCount(@Param("id") int id, @Param("commentCount") int commentCount);
+
     //使用xml实现,需要在resources中建立同名文件，后缀为.xml
     List<Question> selectLatestQuestions(@Param("userId") int userId,
                                          @Param("offset") int offset,
