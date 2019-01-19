@@ -3,6 +3,10 @@ package com.nowcoder.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.nowcoder.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.BinaryClient;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -12,15 +16,24 @@ import redis.clients.jedis.Tuple;
  * @Author: pyh
  * @Date: 2019/1/19 10:29
  * @Version 1.0
- * @Function: redis 的 java 版  jedis演示
+ * @Function:
+ *      1. Main函数中 redis 的 java 版  jedis演示
+ *      2. 实现redis 对外功能，使用set实现点赞点踩功能
  */
-public class JedisAdapter {
+@Service
+public class JedisAdapter implements InitializingBean {
+
+    private final static Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
+
+    //redis连接池
+    private JedisPool pool;
 
     //测试打印函数
     public static void print(int index, Object obj){
         System.out.println(String.format("%d, %s", index, obj.toString()));
     }
 
+    //redis功能测试
     public static void main(String[] args){
 
         Jedis jedis = new Jedis("redis://localhost:6379/9");//连接本机6379端口，第九个数据库表
@@ -161,6 +174,76 @@ public class JedisAdapter {
         //通过Json取出，直接赋值给某个对象
         User user2 = JSON.parseObject(jedis.get("user1"), User.class);  //json序列化实现缓存
         print(47, user2);
+
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        //pool进行初始化
+        pool = new JedisPool("redis://localhost:6379/10");
+    }
+
+    //集合对外的增加操作
+    public long sadd(String key, String val){
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            return jedis.sadd(key, val);
+        } catch (Exception e){
+            logger.error("发生异常 ： " + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    //删除功能
+    public long srem(String key, String val){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.srem(key, val);
+        } catch (Exception e){
+            logger.error("发生异常 ： "+ e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    //计数功能
+    public long scard(String key){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.scard(key);
+        } catch (Exception e){
+            logger.error("发生错误 ：" + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    //是否存在某个成员
+    public boolean sismember(String key, String val){
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            return jedis.sismember(key ,val);
+        } catch (Exception e){
+            logger.error("发生错误 ： "+ e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return false;
+    }
 }
