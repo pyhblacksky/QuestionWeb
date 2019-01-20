@@ -25,12 +25,26 @@ public class EventModel {
     //扩展字段，类似vo，存储对象
     private Map<String, String> exts = new HashMap<>();
 
+    /**
+     * 默认构造函数
+     * */
+    public EventModel(){
+
+    }
+
+    /**
+     * 构造函数
+     * */
+    public EventModel(EventType type){
+        this.type = type;
+    }
+
     //方便扩展字段传递,k - v形式传递
-    public EventModel setExt(String key, String value){
+    public EventModel setExts(String key, String value){
         exts.put(key, value);
         return this;//为了链式调用
     }
-    public String getExt(String key){
+    public String getExts(String key){
         return exts.get(key);
     }
 

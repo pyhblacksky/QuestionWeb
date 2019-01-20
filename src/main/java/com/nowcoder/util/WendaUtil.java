@@ -15,6 +15,8 @@ public class WendaUtil {
 
     //匿名用户id
     public static int ANONYMOUS_USERID = 3;
+    //管理员通知的id
+    public static int SYSTEM_USERID = 1;
 
     //获取Json串
     public static String getJSONString(int code){

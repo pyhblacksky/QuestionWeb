@@ -46,4 +46,8 @@ public class CommentService {
         return commentDAO.updateStatus(commentId, 1) > 0;
     }
 
+    //通过id获取Comment
+    public Comment getCommentById(int id){
+        return commentDAO.selectCommentById(id);
+    }
 }

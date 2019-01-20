@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface EventHandler {
     //处理event,当关注的event发生时，进行处理
-    void doHandle(EventModel eventModel);
+    void doHandle(EventModel model);
 
     //自己关注的是哪些eventType，注册自己
     List<EventType> getSupportEventType();

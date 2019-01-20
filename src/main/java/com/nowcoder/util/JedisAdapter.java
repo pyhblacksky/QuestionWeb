@@ -12,6 +12,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Tuple;
 
+import java.util.List;
+
 /**
  * @Author: pyh
  * @Date: 2019/1/19 10:29
@@ -261,5 +263,21 @@ public class JedisAdapter implements InitializingBean {
             }
         }
         return 0;
+    }
+
+    //当没有任何元素从任何给定列表中弹出时，它会阻止连接。设置为0，则一直阻塞
+    public List<String> brpop(int timeout, String key){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.brpop(timeout, key);
+        } catch (Exception e){
+            logger.error("发生异常 ： " +e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return null;
     }
 }
