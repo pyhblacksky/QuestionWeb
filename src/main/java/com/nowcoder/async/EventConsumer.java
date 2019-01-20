@@ -32,7 +32,7 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
 
     private final static Logger logger = LoggerFactory.getLogger(EventConsumer.class);
 
-    //取出event， 查看其type，进行相应处理一批handler
+    //取出event， 查看其type，进行相应处理一批handler。Map实现消息分发
     private Map<EventType, List<EventHandler>> config = new HashMap<>();
 
     //ApplicationContext知道上下文，知道当前有多少个Beans
@@ -43,7 +43,7 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        //找出所有的event工程实现类。找出实现这个接口的类
+        //找出所有的event工程实现类。找出实现这个接口的类。实现EventHandler的类自动注册。扩展性很强
         Map<String, EventHandler> beans = applicationContext.getBeansOfType(EventHandler.class);
         if(beans != null){
             for (Map.Entry<String, EventHandler> entry : beans.entrySet()){

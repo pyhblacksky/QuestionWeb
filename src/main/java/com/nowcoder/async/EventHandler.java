@@ -10,6 +10,8 @@ import java.util.List;
  *      异步处理框架之
  *          专门用来处理event,分类
  *          记录事件映射
+ *
+ *          handler就是单纯的处理，不保存任何状态，进行调用的。相当于流水线上的处理人员
  */
 public interface EventHandler {
     //处理event,当关注的event发生时，进行处理
