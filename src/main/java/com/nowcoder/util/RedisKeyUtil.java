@@ -12,14 +12,20 @@ public class RedisKeyUtil {
     private static String SPLIT = ":";//分隔符
     private static String BIZ_LIKE = "LIKE";
     private static String BIZ_DISLKE = "DISLIKE";
+    private static String BIZ_EVENETQUEUE = "EVENT_QUEUE";//事件
 
+    //点赞存储的key
     public static  String getLikeKey(int entityType, int entityId){
         return BIZ_LIKE + SPLIT + String.valueOf(entityType) + SPLIT + String.valueOf(entityId);
     }
 
+    //点踩存储的key
     public static String getDislikeKey(int entityType, int entityId){
         return BIZ_DISLKE + SPLIT + String.valueOf(entityType) + SPLIT + String.valueOf(entityId);
     }
 
-
+    //异步事件存储的key
+    public static String getEventQueueKey(){
+        return BIZ_EVENETQUEUE;
+    }
 }

@@ -246,4 +246,20 @@ public class JedisAdapter implements InitializingBean {
         }
         return false;
     }
+
+    //redis 的 list_push     list是队列
+    public long lpush(String key, String value){
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            return jedis.lpush(key, value);
+        } catch (Exception e){
+            logger.error("发生异常 ：" + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
 }
