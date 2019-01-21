@@ -19,6 +19,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * @Author: pyh
+ * @Date: 2019/1/21 15:34
+ * @Version 1.0
+ * @Function:
+ *      数据库初始化及测试
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Sql("/init-schema.sql")

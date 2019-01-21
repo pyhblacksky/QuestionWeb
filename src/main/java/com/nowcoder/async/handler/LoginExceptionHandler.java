@@ -33,10 +33,12 @@ public class LoginExceptionHandler implements EventHandler {
         //传入的key要与来源对应
 
         //测试时，不用考虑登录异常条件
+        /*
         Map<String, Object> map = new HashMap<>();
         map.put("username", model.getExts("username"));
         mailSender.sendWithHTMLTemplate(model.getExts("email"),
                 "登录IP异常", "mails/login_exception.html", map);
+                */
     }
 
     @Override

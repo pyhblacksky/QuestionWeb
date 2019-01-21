@@ -10,9 +10,12 @@ package com.nowcoder.util;
 public class RedisKeyUtil {
 
     private static String SPLIT = ":";//分隔符
-    private static String BIZ_LIKE = "LIKE";
-    private static String BIZ_DISLKE = "DISLIKE";
+    private static String BIZ_LIKE = "LIKE";//点赞
+    private static String BIZ_DISLKE = "DISLIKE";//点踩
     private static String BIZ_EVENETQUEUE = "EVENT_QUEUE";//事件
+
+    private static String BIZ_FOLLOWER = "FOLLOWER";//粉丝
+    private static String BIZ_FOLLOWEE = "FOLLOWEE";//关注对象
 
     //点赞存储的key
     public static  String getLikeKey(int entityType, int entityId){
@@ -27,5 +30,15 @@ public class RedisKeyUtil {
     //异步事件存储的key
     public static String getEventQueueKey(){
         return BIZ_EVENETQUEUE;
+    }
+
+    //获取粉丝的key,根据实体类型和id确定
+    public static String getFollwerKey(int entityType, int entityId){
+        return BIZ_FOLLOWER + SPLIT + String.valueOf(entityType) + SPLIT + String.valueOf(entityId);
+    }
+
+    //获取关注对象的key
+    public static String getFollweeKey(int userId, int entityType){
+        return BIZ_FOLLOWEE + SPLIT + String.valueOf(userId) + SPLIT + String.valueOf(entityType);
     }
 }

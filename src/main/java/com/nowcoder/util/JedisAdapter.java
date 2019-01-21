@@ -7,12 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.BinaryClient;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.*;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: pyh
@@ -273,6 +272,122 @@ public class JedisAdapter implements InitializingBean {
             return jedis.brpop(timeout, key);
         } catch (Exception e){
             logger.error("发生异常 ： " +e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    //从池中获取redis
+    public Jedis getJedis(){
+        return pool.getResource();
+    }
+
+    //开启一个事务        注：关于事务，作为单个逻辑工作单元执行的一系列操作，要么完全地执行，要么完全地不执行。
+    public Transaction multi(Jedis jedis){
+        try {
+            return jedis.multi();
+        } catch (Exception e){
+            logger.error("开启事务失败 ： " + e.getMessage());
+        }
+        return null;
+    }
+
+    //执行事务,每个命令对应一个返回值，所以对应返回List<Object>
+    public List<Object> exec(Transaction tx, Jedis jedis){
+        try {
+            return tx.exec();
+        } catch (Exception e){
+            logger.error("执行事务失败 ： " + e.getMessage());
+        } finally {
+            if(tx != null){
+                try {
+                    tx.close();
+                } catch (IOException e){
+                    logger.error("事务关闭失败 ： " + e.getMessage());
+                }
+            }
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    //将对应值一个优先队列。加入一个集合
+    public long zadd(String key, double score, String value){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zadd(key, score, value);
+        } catch (Exception e){
+            logger.error("发生错误，增加入优先队列失败 ： " + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    //范围选取
+    public Set<String> zrange(String key, int start, int end){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zrange(key, start, end);
+        } catch (Exception e){
+            logger.error("发生错误 zrang ： " + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    //反向范围选取
+    public Set<String> zrevrange(String key, int start, int end){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zrevrange(key, start, end);
+        } catch (Exception e){
+            logger.error("发生错误，zrevrange : " + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
+    //获取数量
+    public long zcard(String key){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return  jedis.zcard(key);
+        } catch (Exception e){
+            logger.error("发生错误， zcard ： " + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+
+    //取出分数
+    public Double zscore(String key, String member){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zscore(key, member);
+        } catch (Exception e){
+            logger.error("发生错误， zscore： " + e.getMessage());
         } finally {
             if(jedis != null){
                 jedis.close();
