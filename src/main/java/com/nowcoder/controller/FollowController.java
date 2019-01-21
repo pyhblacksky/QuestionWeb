@@ -161,6 +161,11 @@ public class FollowController {
             //未登录用户执行逻辑
             model.addAttribute("followees", getUsersInfo(0, followeesIds));
         }
+
+        //关注人的总数量
+        model.addAttribute("followeeCount", followService.getFolloweeCount(EntityType.ENTITY_USER, userId));
+        model.addAttribute("curUser", userService.getUser(userId));//显示当前用户
+
         return "followees";
     }
 
@@ -175,6 +180,9 @@ public class FollowController {
         } else {
             model.addAttribute("followers", getUsersInfo(0,followerIds));
         }
+        //粉丝总数量
+        model.addAttribute("followerCount", followService.getFollowerCount(EntityType.ENTITY_USER, userId));
+        model.addAttribute("curUser", userService.getUser(userId));//显示当前用户
         return "followers";
     }
 

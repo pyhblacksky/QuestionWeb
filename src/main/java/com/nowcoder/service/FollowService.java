@@ -40,7 +40,7 @@ public class FollowService {
 
         //获取一个redis
         Jedis jedis = jedisAdapter.getJedis();
-        Transaction tx = jedisAdapter.multi(jedis);//获取事务
+        Transaction tx = jedisAdapter.multi(jedis);//获取事务.事务的操作，整个过程要么同时成功，要么同时失败
         tx.zadd(followerKey, date.getTime(), String.valueOf(userId));//添加粉丝
         tx.zadd(followeeKey, date.getTime(), String.valueOf(entityId));//添加关注对象
         List<Object> ret = jedisAdapter.exec(tx, jedis);
@@ -74,13 +74,13 @@ public class FollowService {
         return getIdsFromSet(jedisAdapter.zrange(followerKey, offset, count));
     }
 
-    //获取所有的关注者，每一个实体都有关注者.反向选取，获取最新的
+    //获取所有的关注者（关注对象），每一个实体都有关注者.反向选取，获取最新的
     public List<Integer> getFollowees(int entityType, int entityId, int count){
         String followeeKey = RedisKeyUtil.getFollweeKey(entityType, entityId);
         return getIdsFromSet(jedisAdapter.zrevrange(followeeKey, 0, count));
     }
 
-    //获取所有的关注者，offset翻页用的。
+    //获取所有的关注者（关注对象），offset翻页用的。
     public List<Integer> getFollowees(int entityType, int entityId, int offset, int count){
         String followeeKey = RedisKeyUtil.getFollweeKey(entityType, entityId);
         return getIdsFromSet(jedisAdapter.zrevrange(followeeKey, offset, count));
