@@ -79,6 +79,7 @@ public class UserService {
 
         String ticket = addLoginTicket(user.getId());
         map.put("ticket", ticket);  //传出去，通过http下发
+        map.put("userId", user.getId());//在map中添加userId
         return map;
     }
 

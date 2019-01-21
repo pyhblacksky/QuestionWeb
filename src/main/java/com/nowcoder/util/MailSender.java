@@ -60,7 +60,7 @@ public class MailSender implements InitializingBean {
         //在这里设置自己的邮箱
         mailSender = new JavaMailSenderImpl();
         mailSender.setUsername("**********************@qq.com");//用户名**********************
-        mailSender.setPassword("**********************");//演示用密码，实际不是此密码
+        mailSender.setPassword("**********************");//授权码，不是账号密码
         mailSender.setHost("smtp.qq.com");
         mailSender.setPort(465);
         mailSender.setProtocol("smtps");

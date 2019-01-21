@@ -1,5 +1,8 @@
 package com.nowcoder.controller;
 
+import com.nowcoder.async.EventModel;
+import com.nowcoder.async.EventProducer;
+import com.nowcoder.async.EventType;
 import com.nowcoder.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,6 +28,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     //注册功能
     @RequestMapping(value = {"/reg/","/reg"})
@@ -87,6 +93,12 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
                 cookie.setPath("/");
                 response.addCookie(cookie);
+
+                //进行登录事件处理,判断有无异常
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                        .setExts("username", username).setExts("email", "xxx@qq.com")//填写投递邮箱
+                        .setActorId((int)map.get("userId")));
+
                 //next不为空，跳转到next，因为next是权限请求时的页面
                 if(StringUtils.isNotBlank(next)){
                     //判断next的合法性，如输入http://www.baidu.com则跳转回百度,危险
