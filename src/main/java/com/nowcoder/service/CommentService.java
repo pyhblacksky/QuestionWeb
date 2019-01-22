@@ -50,4 +50,9 @@ public class CommentService {
     public Comment getCommentById(int id){
         return commentDAO.selectCommentById(id);
     }
+
+    //获得用户评论数
+    public int getUserCommentCount(int userId){
+        return commentDAO.getUserCommentCount(userId);
+    }
 }

@@ -75,14 +75,14 @@ public class FollowService {
     }
 
     //获取所有的关注者（关注对象），每一个实体都有关注者.反向选取，获取最新的
-    public List<Integer> getFollowees(int entityType, int entityId, int count){
-        String followeeKey = RedisKeyUtil.getFollweeKey(entityType, entityId);
+    public List<Integer> getFollowees(int userId, int entityType, int count){
+        String followeeKey = RedisKeyUtil.getFollweeKey(userId, entityType);
         return getIdsFromSet(jedisAdapter.zrevrange(followeeKey, 0, count));
     }
 
     //获取所有的关注者（关注对象），offset翻页用的。
-    public List<Integer> getFollowees(int entityType, int entityId, int offset, int count){
-        String followeeKey = RedisKeyUtil.getFollweeKey(entityType, entityId);
+    public List<Integer> getFollowees(int userId, int entityType, int offset, int count){
+        String followeeKey = RedisKeyUtil.getFollweeKey(userId, entityType);
         return getIdsFromSet(jedisAdapter.zrevrange(followeeKey, offset, count));
     }
 

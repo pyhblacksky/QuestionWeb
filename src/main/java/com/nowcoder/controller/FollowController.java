@@ -163,7 +163,7 @@ public class FollowController {
         }
 
         //关注人的总数量
-        model.addAttribute("followeeCount", followService.getFolloweeCount(EntityType.ENTITY_USER, userId));
+        model.addAttribute("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER));
         model.addAttribute("curUser", userService.getUser(userId));//显示当前用户
 
         return "followees";
@@ -173,7 +173,7 @@ public class FollowController {
     @RequestMapping(path = {"/user/{uid}/followers"}, method = {RequestMethod.GET})
     public String followers(Model model, @PathVariable("uid") int userId){
         //取出10个关注该用户的粉丝
-        List<Integer> followerIds = followService.getFollowers(userId, EntityType.ENTITY_USER, 0, 10);
+        List<Integer> followerIds = followService.getFollowers(EntityType.ENTITY_USER, userId, 0, 10);
 
         if(hostHolder.getUser() != null){
             model.addAttribute("followers", getUsersInfo(hostHolder.getUser().getId(), followerIds));
@@ -198,9 +198,9 @@ public class FollowController {
 
             ViewObject vo = new ViewObject();
             vo.set("user", user);
-            //vo.set("commentCount", commentService.getCommentCount());//获取用户评论数量
+            vo.set("commentCount", commentService.getUserCommentCount(uid));//获取用户评论数量
             vo.set("followerCount", followService.getFollowerCount(EntityType.ENTITY_USER, uid));//获取用户粉丝的数量
-            vo.set("followeeCount", followService.getFolloweeCount(EntityType.ENTITY_USER, uid));//获取用户关注对象的数量
+            vo.set("followeeCount", followService.getFolloweeCount(uid, EntityType.ENTITY_USER));//获取用户关注对象的数量
             //判断是否登录
             if(localUserId != 0){
                 //不为0，表示已登录.取出是否关注
