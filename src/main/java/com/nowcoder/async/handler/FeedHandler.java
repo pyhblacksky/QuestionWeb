@@ -76,8 +76,8 @@ public class FeedHandler implements EventHandler {
     @Override
     public void doHandle(EventModel model) {
         //随机产生用户id，仅仅用于测试
-        Random r = new Random();
-        model.setActorId(1+r.nextInt(10));
+        //Random r = new Random();
+        //model.setActorId(1+r.nextInt(10));
         ////////////////////////////////////////////
 
         Feed feed = new Feed();
