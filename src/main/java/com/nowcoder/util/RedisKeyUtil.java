@@ -16,6 +16,7 @@ public class RedisKeyUtil {
 
     private static String BIZ_FOLLOWER = "FOLLOWER";//粉丝
     private static String BIZ_FOLLOWEE = "FOLLOWEE";//关注对象
+    private static String BIZ_TIMELINE = "TIMELINE";//时间轴
 
     //点赞存储的key
     public static  String getLikeKey(int entityType, int entityId){
@@ -40,5 +41,10 @@ public class RedisKeyUtil {
     //获取关注对象的key
     public static String getFollweeKey(int userId, int entityType){
         return BIZ_FOLLOWEE + SPLIT + String.valueOf(userId) + SPLIT + String.valueOf(entityType);
+    }
+
+    //获取时间轴的key
+    public static String getTimelineKey(int userId){
+        return BIZ_TIMELINE + SPLIT + String.valueOf(userId);
     }
 }

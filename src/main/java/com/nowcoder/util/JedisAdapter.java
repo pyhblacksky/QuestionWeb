@@ -264,6 +264,22 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
+    //从list中取出start-end的数据，根据关键词key
+    public List<String> lrange(String key, int start, int end){
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.lrange(key, start, end);
+        } catch (Exception e){
+            logger.error("发生错误，lrange : " + e.getMessage());
+        } finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return null;
+    }
+
     //当没有任何元素从任何给定列表中弹出时，它会阻止连接。设置为0，则一直阻塞
     public List<String> brpop(int timeout, String key){
         Jedis jedis = null;
@@ -395,4 +411,6 @@ public class JedisAdapter implements InitializingBean {
         }
         return null;
     }
+
+
 }
