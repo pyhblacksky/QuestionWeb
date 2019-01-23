@@ -1,5 +1,7 @@
 package com.nowcoder.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -21,6 +23,7 @@ public class Feed {
 
     //JSON格式，存储各种字段
     private String data;//数据
+    private JSONObject dataJSON = null;//设置data时，初始化一个JSON对象
 
     public int getId() {
         return id;
@@ -60,5 +63,11 @@ public class Feed {
 
     public void setData(String data) {
         this.data = data;
+        dataJSON = JSONObject.parseObject(data);
+    }
+
+    //类似ViewObject的辅助方法,通过get来获取JSON
+    public String get(String key){
+        return dataJSON == null ? null : dataJSON.getString(key);
     }
 }

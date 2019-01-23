@@ -22,7 +22,7 @@ public class FeedService {
     FeedDAO feedDAO;
 
     //返回该用户关注的事务的最新动态。拉模式
-    public List<Feed> getUserFeeds(int maxId, List<Integer> userIds, int count){
+    public List<Feed> getUserFeeds(int maxId, List<Integer> userIds, int count) {
         return feedDAO.selectUserFeeds(maxId, userIds, count);
     }
 
