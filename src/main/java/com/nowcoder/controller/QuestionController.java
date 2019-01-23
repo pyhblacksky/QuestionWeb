@@ -1,10 +1,7 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.model.*;
-import com.nowcoder.service.CommentService;
-import com.nowcoder.service.LikeService;
-import com.nowcoder.service.QuestionService;
-import com.nowcoder.service.UserService;
+import com.nowcoder.service.*;
 import com.nowcoder.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +18,9 @@ import java.util.List;
  * @Author: pyh
  * @Date: 2019/1/15 20:32
  * @Version 1.0
- * @Function:实现提问控制
+ * @Function:
+ *      实现提问控制
+ *      及提问详情页的控制
  */
 @Controller
 public class QuestionController {
@@ -41,6 +40,9 @@ public class QuestionController {
 
     @Autowired
     LikeService likeService;
+
+    @Autowired
+    FollowService followService;
 
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
@@ -104,6 +106,29 @@ public class QuestionController {
         }
 
         model.addAttribute("comments", comments);
+
+        //增加关注用户者
+        List<ViewObject> followUsers = new ArrayList<>();
+        //获取用户关注信息
+        List<Integer> users = followService.getFollowers(EntityType.ENTITY_QUESTION, qid, 20);
+        for (Integer userId : users){
+            ViewObject vo = new ViewObject();
+            User user = userService.getUser(userId);
+            if(user == null){
+                continue;
+            }
+            vo.set("name", user.getName());
+            vo.set("headUrl", user.getHeadUrl());
+            vo.set("id", user.getId());
+            followUsers.add(vo);
+        }
+        model.addAttribute("followUsers", followUsers);
+        if(hostHolder.getUser() != null){
+            model.addAttribute("followed",
+                    followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
+        } else {
+            model.addAttribute("followed", false);
+        }
 
         return "detail";
     }
