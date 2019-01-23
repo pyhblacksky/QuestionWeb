@@ -26,7 +26,7 @@ public interface FeedDAO {
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     @Insert(value = {" insert into ", TABLE_NAME, " ( ", INSERT_FIELDS,
-            ") values (#{userId}, #{data}, #{created_date}, #{type})"})
+            ") values (#{userId}, #{data}, #{createdDate}, #{type})"})
     int addFeed(Feed feed);
 
     //推的模式，通过id
