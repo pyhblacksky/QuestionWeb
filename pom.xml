@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.31</version>
+			<version>1.2.83</version>
 		</dependency>
 
 		<!--引入redis的java版  jedis-->
